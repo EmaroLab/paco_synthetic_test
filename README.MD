@@ -5,8 +5,11 @@ Problem generator and planners benchmark based on a domain for the manipulation 
 ## Contacts
 
 [Alessio Capitanelli](mailto:alessio.capitanelli@dibris.unige.it)
+
 [Fulvio Mastrogiovanni](mailto:fulvio.mastrogiovanni@unige.it)
+
 [Marco Maratea](mailto:marco@dibris.unige.it)
+
 [Mauro Vallati](m.vallati@hud.ac.uk)
 
 ## References
