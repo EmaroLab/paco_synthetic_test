@@ -11,14 +11,13 @@ CONDITIONAL - Angles are absolute, when an angle is modified all upstream and do
 import sys
 import argparse
 import os
-from random import randint
-import numpy as np
-from problem_generators import generate_simple_prob, generate_cond_prob
-from convert_angles import convert_angles_rel2abs
+from problem_generators import flush_files, generate_configurations
+from os.path import dirname, realpath, isdir
+import shutil
 
 __author__ = "Alessio Capitanelli"
 __copyright__ = "Copyright 2016, Alessio Capitanelli"
-__license__ = "GNU"
+__license__ = "GPLv3"
 __version__ = "1.0.0"
 __maintainer__ = "Alessio Capitanelli"
 __email__ = "alessio.capitanelli@dibris.unige.it"
@@ -30,19 +29,22 @@ def main(argv):
     parser = argparse.ArgumentParser(description=
                                      "Planning for ArtiCulated Objects (PACO) synthetic benchmarks generator. \n"
                                      "By default, it generates both relative and conditional problems and "
-                                     "stores them in the problems folder.\n")
+                                     "stores them in the /problems folder.\n")
 
     parser.add_argument('N_LINKS', help="Number of links of the articulated objects.", type=int)
     parser.add_argument('N_SAMPLES', help="Number of samples to generate.", type=int)
     parser.add_argument('-r', '--resolution', help="Sets angle resolution, default: 4 (0, 90, 180, 270).", type=int)
-    parser.add_argument('-so', '--simple_only', help="Generate simple problems only.", action='store_true')
-    parser.add_argument('-co', '--conditional_only', help="Generate conditional problems only.", action='store_true')
-    parser.add_argument('-sp', '--simple_path', help="Path where to generate simple problems.", type=str)
-    parser.add_argument('-cp', '--conditional_path', help="Path where to generate conditional problems.", type=str)
+    parser.add_argument('-s', '--simple_only', help="Generate simple problems only.", action='store_true')
+    parser.add_argument('-c', '--conditional_only', help="Generate conditional problems only.", action='store_true')
+    parser.add_argument('-a', '--all',
+                        help="Whenever a relative or conditional problem is generated, it generates both alternatives.",
+                        action="store_true")
     parser.add_argument('-d', '--distance', help="Minimum average distance between a joint initial and goal state. "
                                                  "Used to generate more realistic datasets.", type=int)
     parser.add_argument('-o', '--oriented',
                         help="Generates spatially oriented configurations for the relative case, default: false",
+                        action='store_true')
+    parser.add_argument('-n', '--no_joint', help="Use the alternative conditional domain with no joints.",
                         action='store_true')
     args = parser.parse_args()
 
@@ -68,83 +70,70 @@ def main(argv):
     if args.oriented:
         print('Generating oriented configurations for the relative case. Considering virtual link with the ground.')
 
-    # Generate initial and final configurations
-    confs = []
-
-    for prob in range(0, args.N_SAMPLES):
-
-        state = []
-        for joint in range(0, joints):
-            state.append(angles[randint(0, resolution - 1)])
-
-        goal = []
-        if args.distance is not None:
-            realism = -1
-
-            while realism < joints * args.distance:
-                goal = []
-                for link in range(0, joints):
-                    goal.append(angles[randint(0, resolution - 1)])
-                realism = abs(sum(list(np.array(state) - np.array(goal))))
-        else:
-            for link in range(0, joints):
-                goal.append(angles[randint(0, resolution - 1)])
-
-        confs.append(state)
-        confs.append(goal)
+    confs = generate_configurations(args.N_SAMPLES, joints, angles, resolution, args.distance)
 
     # Print to file
     tag = ""
-    if args.oriented or args.distance:
-        tag += "_"
-    if args.oriented:
-        tag += "o"
     if args.distance:
-        tag = tag + "d" + str(args.distance)
+        tag = tag + "_d" + str(args.distance)
+    tag = "{0}_{1}{2}".format(joints, resolution, tag)
 
     if not args.conditional_only or args.simple_only:
-
         path = os.path.dirname(os.path.realpath(__file__))
-        if args.simple_path is not None:
-            path = args.simple_path
+
+        if args.oriented:
+            d_type = "oriented"
+            alt_type = "relative"
         else:
-            if not os.path.exists(path + "/problems/simple"):
-                os.makedirs(path + "/problems/simple")
-            path += "/problems/simple"
+            d_type = "relative"
+            alt_type = "oriented"
+
+        if not os.path.exists(path + "/problems/simple/" + d_type + "/" + tag):
+            os.makedirs(path + "/problems/simple/" + d_type + "/" + tag)
+        path += ("/problems/simple/" + d_type + "/" + tag)
 
         print("Writing {0} simple problem files to {1}...".format(args.N_SAMPLES, path))
-        file_id = 1
-        for probf in range(0, len(confs), 2):
-            filename = "/problem_simple_{0}_{1}{2}_n{3}.pddl".format(joints, resolution, tag, file_id)
-            file = open(path + filename, "w+")
-            generate_simple_prob(file, angles, confs[probf], confs[probf + 1], args.oriented, file_id)
-            file.close()
-            file_id += 1
-
+        flush_files(angles, confs, d_type, tag, path)
         print("Done.")
+
+        if args.all:
+            path = os.path.dirname(os.path.realpath(__file__))
+            if not os.path.exists(path + "/problems/simple/" + alt_type + "/" + tag):
+                os.makedirs(path + "/problems/simple/" + alt_type + "/" + tag)
+            path += ("/problems/simple/" + alt_type + "/" + tag)
+
+            print("Writing {0} simple problem files to {1}...".format(args.N_SAMPLES, path))
+            flush_files(angles, confs, alt_type, tag, path)
+            print("Done.")
 
     if not args.simple_only or args.conditional_only:
-
         path = os.path.dirname(os.path.realpath(__file__))
-        if args.conditional_path is not None:
-            path = args.conditional_path
+
+        if args.no_joint:
+            d_type = "simplified"
+            alt_type = "legacy"
         else:
-            if not os.path.exists(path + "/problems/conditional"):
-                os.makedirs(path + "/problems/conditional")
-            path += "/problems/conditional"
+            d_type = "legacy"
+            alt_type = "simplified"
 
-        print("Writing conditional problem files to {0}...".format(path))
-        file_id = 1
-        for probf in range(0, len(confs), 2):
-            filename = "/problem_conditional_{0}_{1}{2}_n{3}.pddl".format(joints, resolution, tag, file_id)
-            file = open(path + filename, "w+")
-            init = convert_angles_rel2abs(confs[probf])
-            goal = convert_angles_rel2abs(confs[probf + 1])
-            generate_cond_prob(file, angles, init, goal, file_id)
-            file.close()
-            file_id += 1
+        if not os.path.exists(path + "/problems/conditional/" + d_type + "/" + tag):
+            os.makedirs(path + "/problems/conditional/" + d_type + "/" + tag)
+        path += ("/problems/conditional/" + d_type + "/" + tag)
 
+        print("Writing {0} conditional problem files to {1}...".format(args.N_SAMPLES, path))
+        flush_files(angles, confs, d_type, tag, path)
         print("Done.")
+
+        if args.all:
+            path = os.path.dirname(os.path.realpath(__file__))
+            if not os.path.exists(path + "/problems/conditional/" + alt_type + "/" + tag):
+                os.makedirs(path + "/problems/conditional/" + alt_type + "/" + tag)
+            path += ("/problems/conditional/" + alt_type + "/" + tag)
+
+            print("Writing {0} conditional problem files to {1}...".format(args.N_SAMPLES, path))
+            flush_files(angles, confs, alt_type, tag, path)
+            print("Done.")
+
     print("All operations completed. Happy planning!")
 
 

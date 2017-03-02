@@ -1,3 +1,0 @@
-STEP 0: increase_angle(link1,link2,joint1,angle0,angle90)
-STEP 1: increase_angle(link1,link2,joint1,angle90,angle180) increase_angle(link2,link3,joint2,angle0,angle90)
-STEP 2: increase_angle(link2,link1,joint1,angle180,angle270)
