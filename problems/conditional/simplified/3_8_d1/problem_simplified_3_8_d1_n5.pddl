@@ -20,15 +20,15 @@
     (Affected link3 link1)
     (Affected link3 link2)
 
-    (HasAngle angle0 link1)
-    (HasAngle angle45 link2)
-    (HasAngle angle225 link3)
+    (HasAngle angle135 link1)
+    (HasAngle angle135 link2)
+    (HasAngle angle45 link3)
 )
 (:goal
 (and
-    (HasAngle angle90 link1)
-    (HasAngle angle135 link2)
-    (HasAngle angle315 link3)
+    (HasAngle angle180 link1)
+    (HasAngle angle0 link2)
+    (HasAngle angle135 link3)
     )
 )
 )

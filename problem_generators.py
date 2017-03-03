@@ -50,9 +50,13 @@ def generate_simple_prob(file, angles, init, goal, oriented, file_id):
 
     if oriented:
         file.write("    (IsChildOf link1 link_ground)\n")
+        file.write("    (IsParentOf link_ground link1)\n")
         for angle in range(1, joints + 1):
             file.write("    (IsChildOf link{0} link{1})\n".format(str(angle + 1), str(angle)))
+            file.write("    (IsParentOf link{0} link{1})\n".format(str(angle), str(angle + 1)))
         file.write("\n")
+
+        file.write("    (IsRoot joint_ground)\n\n")
         file.write("    (Connected joint_ground link_ground)\n")
         file.write("    (Connected joint_ground link1)\n")
 
@@ -106,16 +110,15 @@ def generate_cond_prob(file, angles, init, goal, file_id):
         file.write("    (AngleOrd angle{0} angle{1})\n".format(angles[angle], angles[angle + 1]))
     file.write("    (AngleOrd angle{0} angle{1})\n\n".format(angles[len(angles) - 1], angles[0]))
 
-    file.write("    (IsChildOf link1 link_ground)\n")
-    for angle in range(1, joints):
-        file.write("    (IsChildOf link{0} link{1})\n".format(str(angle + 1), str(angle)))
-    file.write("\n")
-
     curr_joint_index = 1
     while curr_joint_index <= joints:
         for joint_upstream in range(1, curr_joint_index):
             file.write(
                 "    (Affected joint{0} link{1} joint{2})\n".format(curr_joint_index, joint_upstream, joint_upstream))
+        for joint_downstream in range(curr_joint_index + 1, joints + 1):
+            file.write(
+                "    (Affected joint{0} link{1} joint{2})\n".format(curr_joint_index, joint_downstream - 1,
+                                                                    joint_downstream))
         curr_joint_index += 1
     file.write("\n")
 
@@ -124,8 +127,10 @@ def generate_cond_prob(file, angles, init, goal, file_id):
     for joint in range(2, joints + 1):
         file.write("    (Connected joint{0} link{1})\n".format(joint, joint - 1))
         file.write("    (Connected joint{0} link{1})\n".format(joint, joint))
-
     file.write("\n")
+
+    file.write("    (Fixed link_ground)\n\n")
+
     for joint in range(0, joints):
         file.write("    (HasAngle angle{0} joint{1})\n".format(init[joint], joint + 1))
     file.write(")\n")

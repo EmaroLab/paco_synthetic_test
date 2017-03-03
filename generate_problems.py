@@ -28,23 +28,23 @@ def main(argv):
 
     parser = argparse.ArgumentParser(description=
                                      "Planning for ArtiCulated Objects (PACO) synthetic benchmarks generator. \n"
-                                     "By default, it generates both relative and conditional problems and "
+                                     "By default, it generates both relative and legacy problems and "
                                      "stores them in the /problems folder.\n")
 
     parser.add_argument('N_LINKS', help="Number of links of the articulated objects.", type=int)
     parser.add_argument('N_SAMPLES', help="Number of samples to generate.", type=int)
     parser.add_argument('-r', '--resolution', help="Sets angle resolution, default: 4 (0, 90, 180, 270).", type=int)
-    parser.add_argument('-s', '--simple_only', help="Generate simple problems only.", action='store_true')
-    parser.add_argument('-c', '--conditional_only', help="Generate conditional problems only.", action='store_true')
+    parser.add_argument('-s', '--simple_only', help="Generate relative problems only.", action='store_true')
+    parser.add_argument('-c', '--conditional_only', help="Generate legacy problems only.", action='store_true')
     parser.add_argument('-a', '--all',
-                        help="Whenever a relative or conditional problem is generated, it generates both alternatives.",
+                        help="Whenever a relative or legacy problem is generated, it generates both alternatives.",
                         action="store_true")
     parser.add_argument('-d', '--distance', help="Minimum average distance between a joint initial and goal state. "
                                                  "Used to generate more realistic datasets.", type=int)
     parser.add_argument('-o', '--oriented',
                         help="Generates spatially oriented configurations for the relative case, default: false",
                         action='store_true')
-    parser.add_argument('-n', '--no_joint', help="Use the alternative conditional domain with no joints.",
+    parser.add_argument('-n', '--no_joint', help="Use the alternative legacy domain with no joints.",
                         action='store_true')
     args = parser.parse_args()
 
@@ -92,7 +92,7 @@ def main(argv):
             os.makedirs(path + "/problems/simple/" + d_type + "/" + tag)
         path += ("/problems/simple/" + d_type + "/" + tag)
 
-        print("Writing {0} simple problem files to {1}...".format(args.N_SAMPLES, path))
+        print("Writing {0} {1} problem files to {2}...".format(args.N_SAMPLES, d_type, path))
         flush_files(angles, confs, d_type, tag, path)
         print("Done.")
 
@@ -102,7 +102,7 @@ def main(argv):
                 os.makedirs(path + "/problems/simple/" + alt_type + "/" + tag)
             path += ("/problems/simple/" + alt_type + "/" + tag)
 
-            print("Writing {0} simple problem files to {1}...".format(args.N_SAMPLES, path))
+            print("Writing {0} {1} problem files to {2}...".format(args.N_SAMPLES, alt_type, path))
             flush_files(angles, confs, alt_type, tag, path)
             print("Done.")
 
@@ -120,7 +120,7 @@ def main(argv):
             os.makedirs(path + "/problems/conditional/" + d_type + "/" + tag)
         path += ("/problems/conditional/" + d_type + "/" + tag)
 
-        print("Writing {0} conditional problem files to {1}...".format(args.N_SAMPLES, path))
+        print("Writing {0} {1} problem files to {2}...".format(args.N_SAMPLES, d_type, path))
         flush_files(angles, confs, d_type, tag, path)
         print("Done.")
 
@@ -130,7 +130,7 @@ def main(argv):
                 os.makedirs(path + "/problems/conditional/" + alt_type + "/" + tag)
             path += ("/problems/conditional/" + alt_type + "/" + tag)
 
-            print("Writing {0} conditional problem files to {1}...".format(args.N_SAMPLES, path))
+            print("Writing {0} {1} problem files to {2}...".format(args.N_SAMPLES, alt_type, path))
             flush_files(angles, confs, alt_type, tag, path)
             print("Done.")
 

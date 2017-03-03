@@ -42,9 +42,9 @@ def plan_conditional(args):
 
     # get domain
     if args.no_joint:
-        domain_path = local_path + "/domains/conditional_simplified/domain.pddl"
+        domain_path = local_path + "/domains/simplified/domain.pddl"
     else:
-        domain_path = local_path + "/domains/conditional/domain.pddl"
+        domain_path = local_path + "/domains/legacy/domain.pddl"
 
     for batch in problems_batches:
         # get problem files and start planning
@@ -56,7 +56,7 @@ def plan_conditional(args):
         makedir("/plans/conditional/simplified/madagascar" + batch[batch.rfind("/"):])
         makedir("/plans/conditional/simplified/probe" + batch[batch.rfind("/"):])
 
-        print "Planning conditional problems for batch {0}...".format(batch[batch.rfind("/"):])
+        print "Planning legacy problems for batch {0}...".format(batch[batch.rfind("/"):])
         cur_file_num = 0
         total_file_num = len(problem_files)
         logs = []
@@ -122,7 +122,7 @@ def plan_conditional(args):
             logs.append("{0},{1},{2},{3},{4}\n".format(plan_filename,
                                                        madagascar_num_actions, madagascar_time,
                                                        probe_num_actions, probe_time))
-        print "\nBatch conditional planning completed."
+        print "\nBatch legacy planning completed."
         logs.sort()
         if not isfile(logs_path + batch[batch.rfind("/"):]):
             test_results = open(logs_path + batch[batch.rfind("/"):], "w+")
@@ -156,9 +156,9 @@ def plan_simple(args):
     madagascar_path = local_path + "/planners/madagascar/nplan"
     # get domain
     if args.oriented:
-        domain_path = local_path + "/domains/simple_oriented/domain.pddl"
+        domain_path = local_path + "/domains/oriented/domain.pddl"
     else:
-        domain_path = local_path + "/domains/simple/domain.pddl"
+        domain_path = local_path + "/domains/relative/domain.pddl"
 
     for batch in problems_batches:
         # get problem files and start planning
@@ -170,7 +170,7 @@ def plan_simple(args):
         makedir("/plans/simple/oriented/madagascar" + batch[batch.rfind("/"):])
         makedir("/plans/simple/oriented/probe" + batch[batch.rfind("/"):])
 
-        print "Planning simple problems for batch {0}...".format(batch[batch.rfind("/"):])
+        print "Planning relative problems for batch {0}...".format(batch[batch.rfind("/"):])
         cur_file_num = 0
         total_file_num = len(problem_files)
         logs = []
@@ -247,7 +247,7 @@ def plan_simple(args):
         for log in logs:
             test_results.write(log)
         test_results.close()
-    print("Planning simple problems completed.")
+    print("Planning relative problems completed.")
 
 
 def makedir(name):

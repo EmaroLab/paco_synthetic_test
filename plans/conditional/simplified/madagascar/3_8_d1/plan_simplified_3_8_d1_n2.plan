@@ -1,7 +1,0 @@
-0 : (increase_angle link1 angle90 angle135)
-1 : (increase_angle link1 angle135 angle180)
-2 : (decrease_angle link2 angle90 angle45)
-3 : (decrease_angle link2 angle45 angle0)
-4 : (decrease_angle link2 angle0 angle315)
-5 : (increase_angle link3 angle135 angle180)
-6 : (increase_angle link3 angle180 angle225)

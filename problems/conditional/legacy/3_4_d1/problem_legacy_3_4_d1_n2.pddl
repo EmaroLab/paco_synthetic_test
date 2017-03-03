@@ -10,11 +10,10 @@
     (AngleOrd angle180 angle270)
     (AngleOrd angle270 angle0)
 
-    (IsChildOf link1 link_ground)
-    (IsChildOf link2 link1)
-    (IsChildOf link3 link2)
-
+    (Affected joint1 link1 joint2)
+    (Affected joint1 link2 joint3)
     (Affected joint2 link1 joint1)
+    (Affected joint2 link2 joint3)
     (Affected joint3 link1 joint1)
     (Affected joint3 link2 joint2)
 
@@ -25,15 +24,17 @@
     (Connected joint3 link2)
     (Connected joint3 link3)
 
+    (Fixed link_ground)
+
     (HasAngle angle270 joint1)
-    (HasAngle angle90 joint2)
+    (HasAngle angle0 joint2)
     (HasAngle angle0 joint3)
 )
 (:goal
 (and
     (HasAngle angle270 joint1)
-    (HasAngle angle90 joint2)
-    (HasAngle angle180 joint3)
+    (HasAngle angle180 joint2)
+    (HasAngle angle0 joint3)
     )
 )
 )

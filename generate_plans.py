@@ -23,15 +23,15 @@ def main(argv):
     parser = argparse.ArgumentParser(description=
                                      "Planning for ArtiCulated Objects (PACO) synthetic benchmark plans generator. \n"
                                      "Problem files must be located in the subfolder of"
-                                     "/problems/conditional and /problems/simple.\n"
+                                     "/problems/legacy and /problems/relative.\n"
                                      "Results are stored in /plans")
 
     parser.add_argument('-s', '--simple_only', help="Plan simple problems only.", action='store_true')
     parser.add_argument('-c', '--conditional_only', help="Plan conditional problems only.", action='store_true')
     parser.add_argument('-o', '--oriented', help="Use oriented domain for relative plans", action='store_true')
-    parser.add_argument('-n', '--no_joint', help="Use the alternative conditional domain with no joints.", action='store_true')
+    parser.add_argument('-n', '--no_joint', help="Use the simplified conditional domain.", action='store_true')
     parser.add_argument('-a', '--all',
-                        help="Whenever a relative or conditional plan is generated, it generates both alternatives.",
+                        help="Whenever a simple or conditional plan is generated, it generates both alternatives.",
                         action='store_true')
     args = parser.parse_args()
 

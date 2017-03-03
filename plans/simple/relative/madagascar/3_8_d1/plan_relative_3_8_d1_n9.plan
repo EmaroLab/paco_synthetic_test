@@ -1,2 +1,5 @@
-0 : (decrease_angle link1 link2 joint1 angle0 angle315)
-1 : (increase_angle link2 link3 joint2 angle0 angle45)
+0 : (decrease_angle link1 link2 joint1 angle225 angle180)
+1 : (decrease_angle link3 link2 joint2 angle135 angle90)
+2 : (decrease_angle link2 link1 joint1 angle180 angle135)
+3 : (decrease_angle link3 link2 joint2 angle90 angle45)
+4 : (decrease_angle link1 link2 joint1 angle135 angle90)
