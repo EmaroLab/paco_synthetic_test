@@ -19,13 +19,13 @@
     (Connected joint2 link2)
     (Connected joint2 link3)
 
-    (HasAngle angle225 joint1)
-    (HasAngle angle135 joint2)
+    (HasAngle angle180 joint1)
+    (HasAngle angle45 joint2)
 )
 (:goal
 (and
-    (HasAngle angle90 joint1)
-    (HasAngle angle45 joint2)
+    (HasAngle angle45 joint1)
+    (HasAngle angle90 joint2)
     )
 )
 )

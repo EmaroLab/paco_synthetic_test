@@ -32,9 +32,9 @@
 )
 (:goal
 (and
-    (HasAngle angle0 joint1)
-    (HasAngle angle270 joint2)
-    (HasAngle angle90 joint3)
+    (HasAngle angle180 joint1)
+    (HasAngle angle0 joint2)
+    (HasAngle angle0 joint3)
     )
 )
 )
