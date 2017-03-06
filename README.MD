@@ -33,10 +33,8 @@ the precedent one.
 
 ## Scripts
 
-+ `generate_problems.py` generates by default problems for both the simple and conditional case with 
-equivalent initial and final states. Includes options to generate alternative domains, the number of samples, joints,
-and the average difference between joint angles in the initial and final states. Problems are stored
-in the `problems` folder by batch with a tag indicating resolution, number of links and average difference.
++ `generate_problems.py` generates problems for both simple and conditional cases with  equivalent initial and final states.
+Includes options to se the desired base domain, the number of samples and joints, the resolution, and the average difference between joint angles in the initial and final states. Problems are stored in the `problems` folder by batch with a tag indicating resolution, number of links and average difference.
 
 + `generate_plans.py` plans all the batches in `problems` and stores the results in `plans` folder.
 It uses both *[Madagascar](https://users.ics.aalto.fi/rintanen/jussi/satplan.html)* and 
@@ -45,8 +43,8 @@ A log of planning time and number of actions is stored in the `logs` folder.
 *Please note* that when this script is launched, the `plan` folder is cleaned of
 all its content before generating new plans.
  
-* `run.sh` generates six batches differing by resolution and number of joints for each domain,
-then it launches the planners. Can be a long process on slower machines.
+* `run.sh` generates six batches of problems differing by resolution and number of joints for each domain alternative,
+then it launches the planners and logs the results. It can be a long process on slower machines.
 
 Run `--help` to have more detailed information about Python scripts options.
 
