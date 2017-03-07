@@ -31,14 +31,14 @@
     (Fixed link_ground)
 
     (HasAngle angle270 joint1)
-    (HasAngle angle315 joint2)
-    (HasAngle angle315 joint3)
+    (HasAngle angle45 joint2)
+    (HasAngle angle45 joint3)
 )
 (:goal
 (and
-    (HasAngle angle225 joint1)
-    (HasAngle angle90 joint2)
-    (HasAngle angle45 joint3)
+    (HasAngle angle0 joint1)
+    (HasAngle angle180 joint2)
+    (HasAngle angle90 joint3)
     )
 )
 )

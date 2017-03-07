@@ -24,20 +24,20 @@
     (Connected joint6 link7)
 
     (HasAngle angle180 joint1)
-    (HasAngle angle90 joint2)
-    (HasAngle angle0 joint3)
-    (HasAngle angle90 joint4)
-    (HasAngle angle0 joint5)
-    (HasAngle angle180 joint6)
-)
-(:goal
-(and
-    (HasAngle angle270 joint1)
     (HasAngle angle180 joint2)
-    (HasAngle angle270 joint3)
+    (HasAngle angle180 joint3)
     (HasAngle angle180 joint4)
     (HasAngle angle90 joint5)
     (HasAngle angle90 joint6)
+)
+(:goal
+(and
+    (HasAngle angle0 joint1)
+    (HasAngle angle0 joint2)
+    (HasAngle angle270 joint3)
+    (HasAngle angle0 joint4)
+    (HasAngle angle90 joint5)
+    (HasAngle angle270 joint6)
     )
 )
 )

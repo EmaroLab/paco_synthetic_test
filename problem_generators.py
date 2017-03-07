@@ -68,7 +68,8 @@ def generate_simple_prob(file, angles, init, goal, oriented, file_id):
     if oriented:
         file.write("    (HasAngle angle{0} joint_ground)\n".format(init[0]))
     for joint in range(int(oriented), joints + int(oriented)):
-        file.write("    (HasAngle angle{0} joint{1})\n".format(init[joint], joint + int(not oriented)))
+        file.write("    (HasAngle angle{0} joint{1})\n"
+                   .format(init[joint + int(not oriented)], joint + int(not oriented)))
 
     file.write(")\n")
     file.write("(:goal\n")
@@ -77,7 +78,8 @@ def generate_simple_prob(file, angles, init, goal, oriented, file_id):
     if oriented:
         file.write("    (HasAngle angle{0} joint_ground)\n".format(goal[0]))
     for joint in range(int(oriented), joints + int(oriented)):
-        file.write("    (HasAngle angle{0} joint{1})\n".format(goal[joint], joint + int(not oriented)))
+        file.write("    (HasAngle angle{0} joint{1})\n"
+                   .format(goal[joint + int(not oriented)], joint + int(not oriented)))
     file.write("    )\n")
 
     file.write(")\n")

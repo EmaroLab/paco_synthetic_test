@@ -30,14 +30,14 @@
     (Connected joint2 link2)
     (Connected joint2 link3)
 
-    (HasAngle angle90 joint_ground)
-    (HasAngle angle270 joint1)
+    (HasAngle angle135 joint_ground)
+    (HasAngle angle90 joint1)
     (HasAngle angle90 joint2)
 )
 (:goal
 (and
-    (HasAngle angle0 joint_ground)
-    (HasAngle angle0 joint1)
+    (HasAngle angle315 joint_ground)
+    (HasAngle angle225 joint1)
     (HasAngle angle270 joint2)
     )
 )
