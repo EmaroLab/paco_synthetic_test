@@ -70,11 +70,11 @@ def plan_conditional(args):
             plan_filename = problemFile[problemFile.rfind("/") + 9:-5]
 
             if args.no_joint:
-                output_path = problemFile[:49] + "/plans/conditional/simplified/madagascar/" + batch[batch.rfind("/"):] + \
-                              "/plan_" + plan_filename + ".plan"
+                output_path = problemFile[:problemFile.find("problem")] + "/plans/conditional/simplified/madagascar/" \
+                              + batch[batch.rfind("/"):] + "/plan_" + plan_filename + ".plan"
             else:
-                output_path = problemFile[:49] + "/plans/conditional/legacy/madagascar/" + batch[batch.rfind("/"):] + \
-                              "/plan_" + plan_filename + ".plan"
+                output_path = problemFile[:problemFile.find("problem")] + "/plans/conditional/legacy/madagascar/" \
+                              + batch[batch.rfind("/"):] + "/plan_" + plan_filename + ".plan"
 
             start_time = time.time()
             try:
